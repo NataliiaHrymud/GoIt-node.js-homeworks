@@ -1,0 +1,26 @@
+{
+  "name": "goit-node.js-homeworks",
+  "version": "1.0.0",
+  "description": "node.js-homeworks",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NataliiaHrymud/GoIt-node.js-homeworks.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NataliiaHrymud/GoIt-node.js-homeworks/issues"
+  },
+  "homepage": "https://github.com/NataliiaHrymud/GoIt-node.js-homeworks#readme",
+  "dependencies": {
+    "nodemon": "^2.0.4",
+    "shortid": "^2.2.15",
+    "yargs": "^16.0.3"
+  }
+}
