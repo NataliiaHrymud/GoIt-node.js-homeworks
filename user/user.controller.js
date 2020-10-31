@@ -19,7 +19,7 @@ module.exports = class UserListControllers {
     return res.status(200).json(getContactById(req.params.id));
   }
 
-  // Great new user
+  // Create new user
   static async createUser(req, res, next) {
     await addContact(req.body.name, req.body.email, req.body.phone);
     const newUser = await listContacts();
@@ -70,7 +70,7 @@ module.exports = class UserListControllers {
   static async checkUserInList(req, res, next) {
     const userList = await listContacts();
     const targetUserIndex = userList.findIndex(
-      (user) => user.id === req.params.id
+      (user) => user.id == req.params.id
     );
     if (targetUserIndex === -1) {
       return res.status(404).json({ message: "Not found" });

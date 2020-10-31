@@ -27,12 +27,12 @@ module.exports = class UserList {
   }
 
   initRoutes() {
-    this.server.use("/user/user.contacts.js", userListRouter);
+    this.server.use("/api/contacts", userListRouter);
   }
 
   startListening() {
     this.server.listen(process.env.PORT, () => {
-      console.log("Start server");
+      console.log("Server started listening on port", process.env.PORT);
     });
   }
 };

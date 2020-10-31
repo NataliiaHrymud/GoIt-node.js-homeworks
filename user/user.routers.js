@@ -5,7 +5,7 @@ const UserListControllers = require("./user.controller");
 // Get User list
 userListRouter.get("/", UserListControllers.getUserList);
 
-// Сreat new User and add to list
+// Сreate new User and add to list
 userListRouter.post(
   "/",
   UserListControllers.validateCreateUser,

@@ -15,14 +15,14 @@ async function listContacts() {
 
 // Find contact by ID
 function getContactById(contactId) {
-  return require(contactsPath).find((contact) => contact.id === contactId);
+  return require(contactsPath).find((contact) => contact.id == contactId);
 }
 
 // Remove contact by id
 async function removeContact(contactId) {
   try {
     const removedContact = require(contactsPath).filter(
-      (contact) => contact.id !== contactId
+      (contact) => contact.id != contactId
     );
     await fsPromises.writeFile(contactsPath, JSON.stringify(removedContact));
   } catch (err) {
@@ -54,7 +54,7 @@ async function updateContact(contactId, updateData) {
   try {
     const contactList = require(contactsPath);
     const userList = await listContacts();
-    const targetUserIndex = userList.findIndex((user) => user.id === contactId);
+    const targetUserIndex = userList.findIndex((user) => user.id == contactId);
     contactList[targetUserIndex] = Object.assign(
       contactList[targetUserIndex],
       updateData
