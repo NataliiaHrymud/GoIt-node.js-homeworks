@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const contactsPath = path.join(__dirname, "../db/contacts.json");
+const contactsPath = path.join(__dirname, "../../db/contacts.json");
 const shortid = require("shortid");
 const { promises: fsPromises } = fs;
 

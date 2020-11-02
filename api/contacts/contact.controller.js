@@ -5,7 +5,7 @@ const {
   removeContact,
   addContact,
   updateContact,
-} = require("./user.contacts");
+} = require("./contact.function");
 
 module.exports = class UserListControllers {
   // Get user list

@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const userListRouter = Router();
-const UserListControllers = require("./user.controller");
+const UserListControllers = require("./contact.controller");
 
 // Get User list
 userListRouter.get("/", UserListControllers.getUserList);

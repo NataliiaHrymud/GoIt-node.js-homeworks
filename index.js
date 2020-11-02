@@ -1,3 +1,3 @@
-const UserList = require('./user/server');
+const UserList = require('./api/server');
 
 new UserList().start();
