@@ -1,10 +1,10 @@
 const Joi = require("joi");
-const contactModel = require('./contactSchema');
+const contactModel = require('./contact.schema');
 const { Types: { ObjectId } } = require("mongoose");
 
-module.exports = class UserListControllers {
+module.exports = class ContactListControllers {
   // Get user list
-  static async getUserList(req, res, next) {
+  static async getContactList(req, res, next) {
     try {
       const contacts = await contactModel.find();
       return res.status(200).json(contacts);
@@ -14,7 +14,7 @@ module.exports = class UserListControllers {
   }
 
   // Get user by id
-  static async getUserById(req, res, next) {
+  static async getContactById(req, res, next) {
     try {
       const contact = await contactModel.findById(req.params.id);
       if (!contact) {
@@ -27,7 +27,7 @@ module.exports = class UserListControllers {
   }
 
   // Create new user
-  static async createUser(req, res, next) {
+  static async createContact(req, res, next) {
     try {
       const contact = await contactModel.create(req.body);
       return res.status(200).json(contact);
@@ -37,7 +37,7 @@ module.exports = class UserListControllers {
   }
 
   // Update user
-  static async updateUser(req, res, next) {
+  static async updateContact(req, res, next) {
     try {
       const contact = await contactModel.findByIdAndUpdate(
         req.params.id,
@@ -56,7 +56,7 @@ module.exports = class UserListControllers {
   }
 
   // delete User
-  static async deleteUser(req, res, next) {
+  static async deleteContact(req, res, next) {
     try {
       const contact = await contactModel.findByIdAndDelete(req.params.id);
         if (!contact) {
@@ -69,8 +69,8 @@ module.exports = class UserListControllers {
   }
 
   // Validate new user
-  static validateCreateUser(req, res, next) {
-    const createUserRules = Joi.object({
+  static validateCreateContact(req, res, next) {
+    const createContactRules = Joi.object({
       name: Joi.string().required(),
       email: Joi.string().required(),
       phone: Joi.string().required(),
@@ -78,7 +78,7 @@ module.exports = class UserListControllers {
       password: Joi.string().required(),
       token: Joi.string(),
     });
-    const result = createUserRules.validate(req.body);
+    const result = createContactRules.validate(req.body);
     if (result.error) {
       return res.status(400).send(result.error.details);
     }
@@ -86,8 +86,8 @@ module.exports = class UserListControllers {
   }
 
   // Validate update user
-  static validateUpdateUser(req, res, next) {
-    const updateUserRules = Joi.object({
+  static validateUpdateContact(req, res, next) {
+    const updateContactRules = Joi.object({
       name: Joi.string(),
       email: Joi.string(),
       phone: Joi.string(),
@@ -95,7 +95,7 @@ module.exports = class UserListControllers {
       password: Joi.string(),
       token: Joi.string(),
     });
-    const result = updateUserRules.validate(req.body);
+    const result = updateContactRules.validate(req.body);
     if (result.error) {
       return res.status(400).send(result.error.details);
     }
@@ -103,7 +103,7 @@ module.exports = class UserListControllers {
   }
 
   // Check User in list
-  static async checkUserInList(req, res, next) {
+  static async checkContactInList(req, res, next) {
     if (!ObjectId.isValid(req.params.id)) {
       return res.status(404).json({ message: "Not found" });
     }
