@@ -7,7 +7,7 @@ const contactListRouter = require("./contacts/contact.routers");
 
 require("dotenv").config();
 
-module.exports = class UserList {
+module.exports = class ContactList {
   constructor() {
     this.server = null;
   }
