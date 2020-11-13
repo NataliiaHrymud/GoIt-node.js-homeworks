@@ -14,7 +14,6 @@ module.exports = class ContactList {
   async start() {
     this.initServer();
     this.initMiddlewares();
-    this.initUserRoutes();
     this.initRoutes();
     await this.initDataBase();
     this.startListening();
@@ -28,10 +27,6 @@ module.exports = class ContactList {
     this.server.use(express.json());
     this.server.use(morgan("combined"));
     this.server.use(cors({ origin: `http://localhost:${process.env.PORT}` }));
-  }
-
-  initUserRoutes() {
-    this.server.use("/api/user", userRouter);
   }
 
   initRoutes() {
