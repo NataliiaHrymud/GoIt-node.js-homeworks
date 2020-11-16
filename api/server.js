@@ -1,17 +1,19 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
-const userListRouter = require("./contacts/contact.routers");
+const usersRouter = require("./users/user.routers");
+const contactListRouter = require("./contacts/contact.routers");
 
 require("dotenv").config();
 
-module.exports = class UserList {
+module.exports = class StartServer {
   constructor() {
     this.server = null;
   }
   start() {
     this.initServer();
     this.initMiddlewares();
+    this.initUserRoutes();
     this.initRoutes();
     this.startListening();
   }
@@ -24,6 +26,10 @@ module.exports = class UserList {
     this.server.use(express.json());
     this.server.use(morgan("combined"));
     this.server.use(cors({ origin: "http://localhost:4000" }));
+  }
+
+  initUserRoutes() {
+    this.server.use("/api/user", usersRouter);
   }
 
   initRoutes() {
