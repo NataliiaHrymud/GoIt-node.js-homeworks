@@ -49,10 +49,10 @@ module.exports = class usersControllers {
       const token = await jwt.sign(
         { id: user._id },
         process.env.JWT_SECURE_KEY,
-        { expiresIn: "2 days" } 
+        { expiresIn: "2 days"} 
       );
-      // updateToken(user._id, token);
-      updateToken(id, newToken);
+      // updateToken(id, token);
+      userModel.updateToken(user._id, token);
       return res.status(200).json({
         token: newToken,
         user: {
