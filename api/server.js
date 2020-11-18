@@ -33,7 +33,7 @@ module.exports = class StartServer {
   }
 
   initRoutes() {
-    this.server.use("/api/contacts", userListRouter);
+    this.server.use("/api/contacts", contactListRouter);
   }
 
   startListening() {
