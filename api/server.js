@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const cors = require("cors");
 const morgan = require("morgan");
 const usersRouter = require("./users/user.routers");
@@ -10,11 +11,12 @@ module.exports = class StartServer {
   constructor() {
     this.server = null;
   }
-  start() {
+  async start() {
     this.initServer();
     this.initMiddlewares();
     this.initUserRoutes();
     this.initRoutes();
+    await this.initDataBase();
     this.startListening();
   }
 
@@ -33,7 +35,21 @@ module.exports = class StartServer {
   }
 
   initRoutes() {
-    this.server.use("/api/contacts", userListRouter);
+    this.server.use("/api/contacts", contactListRouter);
+  }
+
+  async initDataBase() {
+    await mongoose
+      .connect(process.env.MONGODB_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+      })
+      .catch((error) => {
+        console.log(error);
+        process.exit(1);
+      });
+    console.log("Database connection successful");
   }
 
   startListening() {
