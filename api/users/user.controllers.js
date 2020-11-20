@@ -1,6 +1,6 @@
 const Joi = require("joi");
 const userModel = require("./user.shema");
-const { hashPassword, findUser, updateToken } = require("./user.helpers");
+const { hashPassword, findUser, updateToken, сreateAvatar, imageMinify, removeAvatar } = require("./user.helpers");
 var jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -13,13 +13,19 @@ module.exports = class usersControllers {
       const { email, password} = req.body;
       const userExsist = await findUser(email);
       if (!userExsist) {
+        await сreateAvatar(email);
+        await imageMinify();
+        await removeAvatar(`${email}.png`)
+
         const newUser = await userModel.create({
           email,
+          avatarURL: `http://localhost:${process.env.PORT}/images/${email}.png`,
           password: await hashPassword(password),
         });
         return res.status(201).json({
           user: {
             email: newUser.email,
+            avatarURL: newUser.avatarURL,
             subscription: newUser.subscription,
             id: newUser._id
           },
@@ -106,6 +112,18 @@ module.exports = class usersControllers {
       next(err);
     }
   }
+// Add Avatar
+static async addAvatar(req, res, next) {
+  try {
+    await imageMinify();
+    await removeAvatar(req.file.filename);
+    return res.status(200).json({
+      avatarURL: `http://localhost:${process.env.PORT}/public/images/${req.file.filename}`,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
 
   // Validate user
   static validateUser(req, res, next) {
