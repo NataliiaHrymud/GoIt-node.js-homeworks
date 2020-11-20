@@ -13,11 +13,9 @@ module.exports = class usersControllers {
       const { email, password} = req.body;
       const userExsist = await findUser(email);
       if (!userExsist) {
-        // const saltRounds = 2;
         const newUser = await userModel.create({
           email,
           password: await hashPassword(password),
-          // password: await bcrypt.hash(password, saltRounds),
         });
         return res.status(201).json({
           user: {
@@ -38,7 +36,6 @@ module.exports = class usersControllers {
     try {
       const { email, password } = req.body;
       const user = await findUser(email);
-      // const user = await userModel.findUserByEmail(email);
       if (!user) {
         return res.status(401).json({ message: "Email or password is wrong" });
       }
@@ -52,7 +49,6 @@ module.exports = class usersControllers {
         { expiresIn: "2 days"} 
       );
       updateToken(user._id, token);
-      // userModel.updateToken(user._id, token);
       return res.status(200).json({
         token: token,
         user: {
@@ -70,7 +66,6 @@ module.exports = class usersControllers {
     try {
       const user = req.user;
       updateToken(user._id, null);
-      // updateToken(id, null);
       return res.status(204).json();
     } catch (err) {
       next(err);
@@ -100,11 +95,6 @@ module.exports = class usersControllers {
         },
         { new: true }
       );
-
-      // const user = await userModel.findUserByIdAndUpdate(
-      //   req.params.id, 
-      //   req.updateParams
-      //   );
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
