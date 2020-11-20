@@ -1,7 +1,7 @@
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const userModel = require("./user.shema");
-// const { hashPassword, findUser, updateToken } = require("./user.helpers");
+const { hashPassword, findUser, updateToken } = require("./user.helpers");
 var jwt = require("jsonwebtoken");
 
 require("dotenv").config();
@@ -11,13 +11,13 @@ module.exports = class usersControllers {
   static async registerUser(req, res, next) {
     try {
       const { email, password} = req.body;
-      const userExsist = await userModel.findUserByEmail(email);
+      const userExsist = await findUser(email);
       if (!userExsist) {
-        const saltRounds = 2;
+        // const saltRounds = 2;
         const newUser = await userModel.create({
           email,
-          // password: await hashPassword(password),
-          password: await bcrypt.hash(password, saltRounds),
+          password: await hashPassword(password),
+          // password: await bcrypt.hash(password, saltRounds),
         });
         return res.status(201).json({
           user: {
@@ -37,8 +37,8 @@ module.exports = class usersControllers {
   static async loginUser(req, res, next) {
     try {
       const { email, password } = req.body;
-      // const user = await findUser(email);
-      const user = await userModel.findUserByEmail(email);
+      const user = await findUser(email);
+      // const user = await userModel.findUserByEmail(email);
       if (!user) {
         return res.status(401).json({ message: "Email or password is wrong" });
       }
@@ -51,10 +51,10 @@ module.exports = class usersControllers {
         process.env.JWT_SECURE_KEY,
         { expiresIn: "2 days"} 
       );
-      // updateToken(id, token);
-      userModel.updateToken(user._id, token);
+      updateToken(user._id, token);
+      // userModel.updateToken(user._id, token);
       return res.status(200).json({
-        token: newToken,
+        token: token,
         user: {
           email: user.email,
           subscription: user.subscription,
@@ -93,18 +93,18 @@ module.exports = class usersControllers {
   // Update current user
   static async updateCurrentUser(req, res, next) {
     try {
-      // const user = await userModel.findByIdAndUpdate(
-      //   req.params.id,
-      //   {
-      //     $set: req.body,
-      //   },
-      //   { new: true }
-      // );
+      const user = await userModel.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: req.body,
+        },
+        { new: true }
+      );
 
-      const user = await userModel.findUserByIdAndUpdate(
-        req.params.id, 
-        req.updateParams
-        );
+      // const user = await userModel.findUserByIdAndUpdate(
+      //   req.params.id, 
+      //   req.updateParams
+      //   );
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
