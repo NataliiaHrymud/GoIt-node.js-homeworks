@@ -1,8 +1,8 @@
 const Joi = require("joi");
+const bcrypt = require("bcrypt");
 const userModel = require("./user.shema");
 const { hashPassword, findUser, updateToken, сreateAvatar, imageMinify, removeAvatar } = require("./user.helpers");
 var jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 
 require("dotenv").config();
 
@@ -40,7 +40,7 @@ module.exports = class usersControllers {
   // login User
   static async loginUser(req, res, next) {
     try {
-      const { email, password, id } = req.body;
+      const { email, password } = req.body;
       const user = await findUser(email);
       if (!user) {
         return res.status(401).json({ message: "Email or password is wrong" });
@@ -52,7 +52,7 @@ module.exports = class usersControllers {
       const token = await jwt.sign(
         { id: user._id },
         process.env.JWT_SECURE_KEY,
-        { expiresIn: 172800 } // two deys
+        { expiresIn: "2 days"} 
       );
       updateToken(user._id, token);
       return res.status(200).json({

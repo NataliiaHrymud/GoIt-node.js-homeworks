@@ -1,37 +1,37 @@
 const { Router } = require("express");
-const contactListRouter = Router();
-const ContactListControllers = require("./contact.controller");
+const userListRouter = Router();
+const UserListControllers = require("./contact.controller");
 
 // Get User list
-contactListRouter.get("/", ContactListControllers.getContactList);
+userListRouter.get("/", UserListControllers.getUserList);
 
 // Сreate new User and add to list
-contactListRouter.post(
+userListRouter.post(
   "/",
-  ContactListControllers.validateCreateContact,
-  ContactListControllers.createContact
+  UserListControllers.validateCreateUser,
+  UserListControllers.createUser
 );
 
 // Update information about User
-contactListRouter.patch(
+userListRouter.patch(
   "/:id",
-  ContactListControllers.checkContactInList,
-  ContactListControllers.validateUpdateContact,
-  ContactListControllers.updateContact
+  UserListControllers.checkUserInList,
+  UserListControllers.validateUpdateUser,
+  UserListControllers.updateUser
 );
 
 // Find User by ID
-contactListRouter.get(
+userListRouter.get(
   "/:id",
-  ContactListControllers.checkContactInList,
-  ContactListControllers.getContactById
+  UserListControllers.checkUserInList,
+  UserListControllers.getUserById
 );
 
 // Delete User by ID
-contactListRouter.delete(
+userListRouter.delete(
   "/:id",
-  ContactListControllers.checkContactInList,
-  ContactListControllers.deleteContact
+  UserListControllers.checkUserInList,
+  UserListControllers.deleteUser
 );
 
-module.exports = contactListRouter;
+module.exports = userListRouter;

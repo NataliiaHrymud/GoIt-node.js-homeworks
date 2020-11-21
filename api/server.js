@@ -39,23 +39,23 @@ module.exports = class StartServer {
     this.server.use("/api/contacts", contactListRouter);
   }
 
+  async initDataBase() {
+    await mongoose
+      .connect(process.env.MONGODB_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+      })
+      .catch((error) => {
+        console.log(error);
+        process.exit(1);
+      });
+    console.log("Database connection successful");
+  }
+
   startListening() {
     this.server.listen(process.env.PORT, () => {
       console.log("Server started listening on port", process.env.PORT);
     });
   }
-
-  async initDataBase() {
-    try{
-      await mongoose.connect(process.env.MONGODB_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useFindAndModify: false
-      })       
-      console.log("Database connection successful");
-    }catch (err){
-      console.log(err);
-      process.exit(1);
-    }
-  }  
 };
