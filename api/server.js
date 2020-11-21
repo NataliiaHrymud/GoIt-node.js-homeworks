@@ -27,7 +27,8 @@ module.exports = class StartServer {
   initMiddlewares() {
     this.server.use(express.json());
     this.server.use(morgan("combined"));
-    this.server.use(cors({ origin: "http://localhost:4000" }));
+    this.server.use(express.static("public"));
+    this.server.use(cors({ origin: `http://localhost:${process.env.PORT}` }));
   }
 
   initUserRoutes() {

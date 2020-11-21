@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const usersRouter = Router();
 const usersControllers = require("./user.controllers");
+const {upload} = require("./user.helpers");
 
 // Registration request
 usersRouter.post(
@@ -36,5 +37,13 @@ usersRouter.patch(
   usersControllers.authorize,
   usersControllers.updateCurrentUser
 );
+
+// Create user avatar
+usersRouter.patch(
+  "/users/avatars",
+  usersControllers.authorize,
+  upload.single("avatars"),
+  usersControllers.addAvatar
+  );
 
 module.exports = usersRouter;
